@@ -1,0 +1,15 @@
+# Summary
+
+- [Introduction](./introduction.md)
+- [Privacy Primitives](./primitives/index.md)
+  - [HD Accounts](./primitives/hd.md)
+  - [Stealth Addresses](./primitives/stealth.md)
+  - [ZK SNARKs](./primitives/zksnarks.md)
+  - [ZK VMs](./primitives/zkvm.md)
+  - [Trusted Execution Environments](./primitives/tee.md)
+  - [Pederson Commitments](./primitives/pedersen.md)
+  - [Bulletproofs](./primitives/bulletproofs.md)
+- [Applications](./applications/index.md)
+  - [Mixer: Hermes Vault](./applications/hermes.md)
+  - [Full Privacy: Mithras](./applications/mithras.md)
+  - [Confidential Amounts: Velare](./applications/velare.md)
