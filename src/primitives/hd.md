@@ -1,5 +1,14 @@
 # HD Accounts
 
+## TL;DR
+
+- HD accounts allow multiple accounts to be derived from a single secret key
+- A special type of public key that is partially private, called the xPub, can be shared with others so they can derive child public keys that the HD account owner controls
+- The xPub can be shared with one or more people to enable anonymous transactions between the xPub holder(s) and the HD account owner
+  - To an external observer, the transactions are going to a random address that cannot be linked to the HD account owner
+  - All people who hold the xPub can create links between all xPub-derived addresses
+    - If the xPub leaks all past and future addresses can be linked
+
 ## Introduction
 
 Hierarchical Deterministic Accounts (HD Accounts) allow multiple accounts to be derived from a single secret key. This is done via a chain of cryptographic operations performed on the root secret key. Each derivation step can be one of two types of derivations: soft or hard.
@@ -18,6 +27,8 @@ HD derivation enables a user to derive new accounts with any cadence (for exampl
 
 > [!WARNING]
 > It's important to note that the xPub is partially private information. The xPub being leaked will result in all past and future child accounts being linked to each other and the parent account.
+>
+> This also means if Alice generates *xPub<sub>Alice</sub>* and shares it with both Bob and Carol, Bob will see all of Carol's transactions and Carol will see all of Bob's transactions.
 
 ## Implementation Details
 
