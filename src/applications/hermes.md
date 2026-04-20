@@ -6,12 +6,12 @@ The information on this page is based on [Hermes Vault commit 45c24e5](https://g
 
 ### Overview
 
-**Deposit**: Add `MiMC_Hash(Amount, K, R)` to merkle tree with the root stored in contract state. `K` and `R` remain secret.
+**Deposit**: A deposit commitment is calculated via `MiMC_Hash(Amount, K, R)` in a ZK circuit that does NOT reveal `K` or `R`. This commitment is added to a Merkle tree constructed by the smart contract.
 
-**Withdraw**: Prove you know `Amount`, `K`, and `R` (without revealing them) via a circuit that calculates the same root in the contract via a merkle path (which is also private). You must also publicly reveal `MiMC_Hash(Amount, K)` as the nullifier to prove it has not yet been spent. All nullifiers are permanently stored in contract state. Partial amounts can be withdrawn by also creating a new deposit: `MiMC_Hash(Change, K2, R2)`.
+**Withdraw**: Prove you know `Amount`, `K`, and `R` (without revealing them) in a ZK circuit via a Merkle proof that calculates to the same root in the smart contract. You must also publicly reveal `MiMC_Hash(Amount, K)` as the nullifier to prove it has not yet been spent. All nullifiers are permanently stored in contract state. Partial amounts can be withdrawn by also creating a new deposit: `MiMC_Hash(Change, K2, R2)`.
 
 > [!IMPORTANT]
-> `MiMC_Hash(Amount, K, R)` and `MiMC_Hash(Amount, K)` are NOT linkable. If we only had one secret, the deposit commitment and nullifier would be one in the same.
+> The deposit commitment `MiMC_Hash(Amount, K, R)` and nullifier `MiMC_Hash(Amount, K)` are NOT linkable. If we only had one secret, the deposit commitment and nullifier would be one in the same.
 
 ### Methods
 
