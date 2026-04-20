@@ -6,7 +6,7 @@ The information on this page is based on [Hermes Vault commit 45c24e5](https://g
 
 ### Overview
 
-**Deposit**: Add `MiMC_Hash(Amount, K, R)` to merkle tree with the root stored in contract state.
+**Deposit**: Add `MiMC_Hash(Amount, K, R)` to merkle tree with the root stored in contract state. `K` and `R` remain secret.
 
 **Withdraw**: Prove you know `Amount`, `K`, and `R` (without revealing them) via a circuit that calculates the same root in the contract via a merkle path (which is also private). You must also publicly reveal `MiMC_Hash(Amount, K)` as the nullifier to prove it has not yet been spent. All nullifiers are permanently stored in contract state. Partial amounts can be withdrawn by also creating a new deposit: `MiMC_Hash(Change, K2, R2)`.
 
