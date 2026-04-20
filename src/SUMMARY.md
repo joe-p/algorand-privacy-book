@@ -11,6 +11,6 @@
   - [Pederson Commitments](./primitives/pedersen.md)
   - [Bulletproofs](./primitives/bulletproofs.md)
 - [Examples & Applications](./applications/index.md)
-  - [Mixer: Hermes Vault](./applications/hermes.md)
+  - [Anonymous Mixer: Hermes Vault](./applications/hermes.md)
   - [Full Privacy: Mithras](./applications/mithras.md)
   - [Confidential Amounts: Velare](./applications/velare.md)
