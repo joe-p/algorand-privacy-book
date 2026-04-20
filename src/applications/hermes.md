@@ -8,7 +8,7 @@ The information on this page is based on [Hermes Vault commit 45c24e5](https://g
 
 **Deposit**: A deposit commitment is calculated via `MiMC_Hash(Amount, K, R)` in a ZK circuit that does NOT reveal `K` or `R`. This commitment is added to a Merkle tree constructed by the smart contract.
 
-**Withdraw**: Prove you know `Amount`, `K`, and `R` (without revealing them) in a ZK circuit via a Merkle proof that calculates to the same root in the smart contract. You must also publicly reveal `MiMC_Hash(Amount, K)` as the nullifier to prove it has not yet been spent. All nullifiers are permanently stored in contract state. Partial amounts can be withdrawn by also creating a new deposit: `MiMC_Hash(Change, K2, R2)`.
+**Withdraw**: Prove you know `Amount`, `K`, and `R` (without revealing them) in a ZK circuit via a Merkle proof. The root calculated in the circuit must match the root in the smart contract. The spender must also publicly reveal `MiMC_Hash(Amount, K)` as the nullifier to prove it has not yet been spent. All nullifiers are permanently stored in contract state. Partial amounts can be withdrawn by also creating a new deposit: `MiMC_Hash(Change, K2, R2)`.
 
 > [!IMPORTANT]
 > The deposit commitment `MiMC_Hash(Amount, K, R)` and nullifier `MiMC_Hash(Amount, K)` are NOT linkable. If we only had one secret, the deposit commitment and nullifier would be one in the same.
