@@ -18,25 +18,26 @@ By eliminating the Merkle tree and stealth addresses we can dramatically simplif
 
 #### Deposit
 
-- Create a UTXO commitment in a ZK circuit `MiMC_Hash(amount, asset, secret, receiver)` without revealing `secret`.
-  - `receiver` is a hash of an ed25519 spending public key and an [HPKE](../primitives/hpke.md) KEM public key (for now, X25519).
-- The secret is encrypted via [HPKE](../primitives/hpke.md)
-  - The ciphertext stored in a box that uses the `receiver` and `asset` as the key so it can be easily retrieved from algod.
+- Prove you know `amount`, `asset`, `secret`, and `receiver` and reveal commitment `MiMC_Hash(amount, asset, secret, receiver)`
+  - `secret` remains secret
+  - `amount`, `asset`, and `reciever` are all revealed to the contract
 
 #### Spend
 
-- In a ZK circuit, prove you know the values of `MiMC_Hash(amount, asset, secret, receiver)`.
+> [!NOTE]
+> Velare supports multiple inputs and outputs when spending. `IN` is the amount of inputs and `OUT` is the amount of outputs.
+
+- Prove you know `in_amounts[IN]`, `asset`, `in_secrets[IN]`, and `receiver` and reveal `IN` commitments `MiMC_Hash(in_amounts[IN], asset, secrets[IN], receiver)`
+  - `in_amounts[IN]`, `asset`, and `in_secrets[IN]` remain secret
   - `receiver` is revealed to the contract which verifies that the transaction sender is `receiver`
-  - `amount`, `asset`, and `secret` remain secret
-  - The contract verifies this commitment exists in a box and then deletes it ensuring it is only spent once
-- In the same ZK circuit, create a new commitment `MiMC_Hash(out_amount, asset, out_secret, out_receiver)`
-  - This commitment is added to a box for `out_receiver`
-  - `out_amount`, `asset`, and `out_secret` remain secret
+  - The contract verifies each commitment exists in a box and then deletes it ensuring it is only spent once
+- Prove you know `out_amounts[OUT]`, `asset`, `out_secrets[OUT]`, and `out_receivers[OUT]` and reveal `OUT` commitments `MiMC_Hash(out_amounts[OUT], asset, out_secrets[OUT], out_receivers[OUT])`
+  - `out_amounts[OUT]`, `asset`, and `out_secrets[OUT]` remain secret
+  - `out_receivers[OUT]` is revealed to the contract so `OUT` commitments can be stored in boxes
+- Prove `Sum(out_amounts[OUT]) == Sum(in_amounts[IN])`
+  - Recall `out_amounts[OUT]` and `in_amounts[IN]` remain secret
 
 #### Withdraw
 
 - Same as spend, except there is one output where `amount` and `asset` are also revealed alongside `receiver`
   - The contract issues an inner transaction to send the asset to the specified address
-
-> [!NOTE]
-> For the sake of simplicity in the overview there is just one input and one output. In reality, there are multiple circuits for various combinations of inputs and outputs. The most common is 2 in and 2 out.

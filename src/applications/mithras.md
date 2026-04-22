@@ -10,7 +10,7 @@ Mithras started as a fork of the [Hermes Vault](./hermes.md) mixer with two addi
 - The protocol should be private by default but enable selective disclosure
   - For example, auditors should be able to review transactions
 
-How we got there:
+#### Building off Hermes
 
 - Standard mixers, such as [Hermes Vault](./hermes.md), use `Hash(amount, nullifier_secret, blinding_secret)` to commit to deposits
   - Anyone with `nullifier_secret` and `blinding_secret` can verify the `amount` AND spend it
