@@ -6,14 +6,36 @@ The information on this page is based on [Hermes Vault commit 45c24e5](https://g
 
 ### Overview
 
-**Deposit**: A deposit commitment is calculated via `MiMC_Hash(Amount, K, R)` in a ZK circuit that does NOT reveal `K` or `R`. This commitment is added to a Merkle tree constructed by the smart contract.
+> [!NOTE]
+> For simplicity, some details, such as the fact that there is a `Fee` in the withdrawal process have been omitted in this overview. View the [details](#details) section below for more precise details.
 
-**Withdraw**: Prove you know `Amount`, `K`, and `R` (without revealing them) in a ZK circuit via a Merkle proof. The root calculated in the circuit must match the root in the smart contract. The spender must also publicly reveal `MiMC_Hash(Amount, K)` as the nullifier to prove it has not yet been spent. All nullifiers are permanently stored in contract state. Partial amounts can be withdrawn by also creating a new deposit: `MiMC_Hash(Change, K2, R2)`.
+#### Deposit Overview
+
+- Prove you know `Amount`, `K`, and `R` and reveal `MiMC_Hash(Amount, K, R)`
+  - `K` and `R` remain secret
+  - `Amount` is public and the contract verifies it matches the deposit amount
+  - The smart contract adds `MiMC_Hash(Amount, K, R)` to a Merkle tree and stores the root in a contract state
+
+#### Withdraw Overview
+
+- Prove you know `Amount`, `K`, and `R` and reveal `MiMC_Hash(Amount, K, R)`
+  - `Amount`, `K`, and `R` remain secret
+- Prove you can verify the Merkle path `Path` to `Root` from `MiMC_Hash(Amount, K, R)`
+  - `Root` is revealed to the contract, which verifies it matches the current root (or a recent one) in the contract
+  - `Path` and `MiMC_Hash(Amount, K, R)` remain secret
+- Prove you know `Amount` and `K` and reveal `MiMC_Hash(Amount, K)`
+  - This value is used as a nullifier which is permanently stored in the contract. This ensures this deposit is only spent once.
+- Prove you know new secret inputs `Change`, `K2`, and `R2` and reveal `MiMC_Hash(Change, K2, R2)`
+  - `Change`, `K2`, and `R2` all remain secret
+  - This new change commitment is added to the merkle tree as a new deposit
+- Prove you know `Amount == Change + Withdrawal`
+  - `Amount` and `Withdrawal` remain secret
+  - `Withdrawal` is revealed and that amount is sent to the withdrawing account
 
 > [!IMPORTANT]
 > The deposit commitment `MiMC_Hash(Amount, K, R)` and nullifier `MiMC_Hash(Amount, K)` are NOT linkable. If we only had one secret, the deposit commitment and nullifier would be one in the same.
 
-### Methods
+### Details
 
 #### Deposit
 
