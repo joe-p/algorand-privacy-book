@@ -16,13 +16,13 @@ Velare was created to reduce the infrastructure requirements. Namely:
 
 By eliminating the Merkle tree and stealth addresses we can dramatically simplify the require infrastructure and contract methods.
 
-#### Deposit
+#### Deposit Overview
 
 - Prove you know `amount`, `asset`, `secret`, and `receiver` and reveal commitment `MiMC_Hash(amount, asset, secret, receiver)`
   - `secret` remains secret
   - `amount`, `asset`, and `receiver` are all revealed to the contract
 
-#### Spend
+#### Spend Overview
 
 > [!NOTE]
 > Velare supports multiple inputs and outputs when spending. `IN` is the amount of inputs and `OUT` is the amount of outputs.
@@ -37,7 +37,7 @@ By eliminating the Merkle tree and stealth addresses we can dramatically simplif
 - Prove `Sum(out_amounts[OUT]) == Sum(in_amounts[IN])`
   - Recall `out_amounts[OUT]` and `in_amounts[IN]` remain secret
 
-#### Withdraw
+#### Withdrawal Overview
 
 - Same as spend, except there is one output where `amount` and `asset` are also revealed alongside `receiver`
   - The contract issues an inner transaction to send the asset to the specified address
