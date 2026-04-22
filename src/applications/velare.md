@@ -20,7 +20,7 @@ By eliminating the Merkle tree and stealth addresses we can dramatically simplif
 
 - Prove you know `amount`, `asset`, `secret`, and `receiver` and reveal commitment `MiMC_Hash(amount, asset, secret, receiver)`
   - `secret` remains secret
-  - `amount`, `asset`, and `reciever` are all revealed to the contract
+  - `amount`, `asset`, and `receiver` are all revealed to the contract
 
 #### Spend
 
